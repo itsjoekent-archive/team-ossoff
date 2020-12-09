@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import ToolkitCard, { ToolkitCardWrapper } from '../components/ToolkitCard';
 import { LedeTitle, LedeSubtitle, LedeContainer } from '../components/HeroBlocks';
 
@@ -51,6 +51,16 @@ const BackgroundVideoColorOverlay = styled.div`
   opacity: 0.5;
 `;
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,6 +71,9 @@ const ContentContainer = styled.div`
 
   position: relative;
   z-index: 4;
+
+  opacity: 0;
+  animation: ${fadeIn} 1.5s 0.5s forwards;
 `;
 
 const CardContainer = styled.div`
@@ -90,29 +103,54 @@ const CardRowTitle = styled.h3`
   }
 `;
 
+const slideIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+`;
+
 const CardRow = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   overflow-x: scroll;
-  position: relative;
-
-  &:before {
-    content: '';
-    width: 50%;
-    max-width: 96px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 1;
-
-    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-  }
 
   ${ToolkitCardWrapper} {
     padding-right: 24px;
     min-width: 66.66vw;
+
+    opacity: 0;
+    transform: translateY(100vh);
+
+    &:nth-child(1) {
+      animation: ${slideIn} 1.5s 0.5s forwards;
+    }
+
+    &:nth-child(2) {
+      animation: ${slideIn} 1.5s 0.65s forwards;
+    }
+
+    &:nth-child(3) {
+      animation: ${slideIn} 1.5s 0.75s forwards;
+    }
+
+    &:nth-child(4) {
+      animation: ${slideIn} 1.5s 0.85s forwards;
+    }
+
+    &:nth-child(5) {
+      animation: ${slideIn} 1.5s 0.85s forwards;
+    }
+
+    &:nth-child(6) {
+      animation: ${slideIn} 1.5s 0.95s forwards;
+    }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
       min-width: 385px;

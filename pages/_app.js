@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 import theme from '../theme';
 import '../styles/globals.css';
 
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <Navigation />
         <Component {...pageProps} />
+        <Footer />
       </ThemeProvider>
     </React.Fragment>
   );
