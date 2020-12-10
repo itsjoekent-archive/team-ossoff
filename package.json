@@ -8,7 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^14.1.2",
+    "@contentful/rich-text-types": "^14.1.2",
     "@svgr/webpack": "^5.5.0",
+    "contentful": "^8.1.1",
+    "lodash.get": "^4.4.2",
     "next": "10.0.3",
     "polished": "^4.0.5",
     "react": "17.0.1",

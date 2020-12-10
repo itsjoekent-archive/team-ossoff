@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import ToolkitCard, { ToolkitCardWrapper } from '../components/ToolkitCard';
 import { LedeTitle, LedeSubtitle, LedeContainer } from '../components/HeroBlocks';
+import { fetchToolkits } from '../utils/contentfulPosts';
 
 const Page = styled.main`
   display: block;
@@ -178,7 +179,9 @@ const desktopVideo = {
   'poster': '/assets/hero-poster.jpg',
 };
 
-export default function Home() {
+export default function Home(props) {
+  const { toolkits } = props;
+
   const videoRef = React.useRef();
 
   const [videoSource, setVideoSource] = React.useState(mobileVideo);
@@ -232,15 +235,35 @@ export default function Home() {
             Actions you can take right now to elect jon
           </CardRowTitle>
           <CardRow>
+            {toolkits.slice(0, 6).map((toolkit) => (
+              <ToolkitCard
+                key={toolkit.sys.id}
+                path={`/toolkit/${toolkit.fields.slug}`}
+                title={toolkit.fields.title}
+                callToAction={toolkit.fields.callToAction}
+                estimatedDuration={toolkit.fields.estimatedDuration}
+                requiredDevices={toolkit.fields.requiredDevices}
+              />
+            ))}
+            {/* <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
             <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
             <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
             <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
             <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
+            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" /> */}
           </CardRow>
         </CardContainer>
       </ContentContainer>
     </Page>
   );
+}
+
+export async function getStaticProps() {
+  const toolkits = await fetchToolkits();
+
+  return {
+    props: {
+      toolkits,
+    },
+  }
 }

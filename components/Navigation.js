@@ -42,7 +42,9 @@ const CtaButton = styled.a`
 export default function Navigation() {
   return (
     <Container>
-      <Logo src="/assets/logo-white.png" />
+      <a href="/">
+        <Logo src="/assets/logo-white.png" />
+      </a>
       <CtaButton>Join a friendbank</CtaButton>
     </Container>
   );
