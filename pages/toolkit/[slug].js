@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import get from 'lodash.get';
 import Head from 'next/head';
+import { darken } from 'polished';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { LedeTitle, LedeSubtitle } from '../../components/HeroBlocks';
@@ -131,6 +132,7 @@ const BylineRow = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 48px;
   }
 `;
 
@@ -223,6 +225,34 @@ const Header = styled.h2`
   line-height: 1.1;
   color: ${({ theme }) => theme.colors.navy};
   margin-bottom: 12px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: 32px;
+  }
+`;
+
+const InlineCtaButton = styled.button`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 800;
+  font-size: 28px;
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+  text-decoration: none;
+  background-color: ${({ theme }) => theme.colors.red};
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.25);
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 24px;
+
+  &:hover {
+    box-shadow: none;
+    background-color: ${({ theme }) => darken(0.1, theme.colors.red)};
+  }
 `;
 
 const Paragraph = styled.p`
@@ -244,6 +274,7 @@ const options = {
   },
   renderNode: {
     [BLOCKS.HEADING_2]: (node, children) => <Header>{children}</Header>,
+    [BLOCKS.HEADING_6]: (node, children) => <InlineCtaButton>{children}</InlineCtaButton>,
     [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
   },
 };

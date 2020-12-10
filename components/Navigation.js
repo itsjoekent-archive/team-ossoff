@@ -45,7 +45,7 @@ export default function Navigation() {
       <a href="/">
         <Logo src="/assets/logo-white.png" />
       </a>
-      <CtaButton>Join a friendbank</CtaButton>
+      <CtaButton href="https://secure.actblue.com/donate/ms_hp_ossoff?refcode=team-ossoff">Donate</CtaButton>
     </Container>
   );
 }
