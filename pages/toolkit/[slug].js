@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import get from 'lodash.get';
+import Head from 'next/head';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { LedeTitle, LedeSubtitle } from '../../components/HeroBlocks';
 import Alarm from '../../components/icons/alarm.svg';
 import Devices from '../../components/icons/devices.svg';
+import Facebook from '../../components/icons/facebook.svg';
+import Twitter from '../../components/icons/twitter.svg';
 import { fetchToolkits, fetchToolkitWithSlug } from '../../utils/contentfulPosts';
 
 const HeroSection = styled.section`
@@ -120,6 +123,99 @@ const ContentColumn = styled.div`
   margin-right: auto;
 `;
 
+const BylineRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const AuthorRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 24px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    margin-bottom: 0;
+  }
+`;
+
+const Avatar = styled.img`
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-right: 6px;
+`;
+
+const NameColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const Name = styled.p`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 700;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const Title = styled(Name)`
+  font-weight: 300;
+`;
+
+const SocialColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  ${Name} {
+    margin-bottom: 6px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    ${Name} {
+      margin-bottom: 0;
+      text-align: right;
+    }
+  }
+`;
+
+const SocialIconRow = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    justify-content: flex-end;
+  }
+`;
+
+const SocialIcon = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  cursor: pointer;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+
+  svg path {
+    fill: ${({ theme }) => theme.colors.navy};
+  }
+
+  &:hover svg path {
+    fill: ${({ theme }) => theme.colors.red};
+  }
+`;
+
 const Header = styled.h2`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-weight: 700;
@@ -154,11 +250,18 @@ const options = {
 
 export default function Toolkit(props) {
   const { toolkit } = props;
-  console.log(toolkit);
   const priorityLabel = get(toolkit, 'fields.priorityLabel');
+
+  const shareLink = `https://teamossoff.com/toolkit/${get(toolkit, 'fields.slug')}`;
+  const shareText = get(toolkit, 'fields.callToAction') || '';
+  const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=${encodeURIComponent(shareText)}`;
+  const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText || ''}\n${shareLink}`)}`;
 
   return (
     <React.Fragment>
+      <Head>
+        <title>{get(toolkit, 'fields.title')} | Team Ossoff</title>
+      </Head>
       <HeroSection>
         <BackgroundCover
           src={get(toolkit, 'fields.coverPhoto.fields.file.url')}
@@ -182,6 +285,29 @@ export default function Toolkit(props) {
         </HeroContentContainer>
       </HeroSection>
       <ContentColumn>
+        <BylineRow>
+          <AuthorRow>
+            <Avatar
+              src={get(toolkit, 'fields.author.fields.avatar.fields.file.url')}
+              alt={get(toolkit, 'fields.author.fields.avatar.fields.description')}
+            />
+            <NameColumn>
+              <Name>{get(toolkit, 'fields.author.fields.name')}</Name>
+              <Title>{get(toolkit, 'fields.author.fields.jobTitle')}</Title>
+            </NameColumn>
+          </AuthorRow>
+          <SocialColumn>
+            <Name>Share toolkit</Name>
+            <SocialIconRow>
+              <SocialIcon href={facebookLink} aria-label="Share this toolkit to Facebook">
+                <Facebook />
+              </SocialIcon>
+              <SocialIcon href={twitterLink} aria-label="Share this toolkit to Twitter">
+                <Twitter />
+              </SocialIcon>
+            </SocialIconRow>
+          </SocialColumn>
+        </BylineRow>
         {documentToReactComponents(get(toolkit, 'fields.content'), options)}
       </ContentColumn>
     </React.Fragment>
