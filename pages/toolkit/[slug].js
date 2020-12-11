@@ -114,16 +114,6 @@ const HeroDetailLabel = styled.p`
   margin-left: 4px;
 `;
 
-const ContentColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 600px;
-  padding: 36px 24px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
 const BylineRow = styled.div`
   display: flex;
   flex-direction: column;
@@ -268,6 +258,39 @@ const Paragraph = styled.p`
   }
 `;
 
+const EmbeddedAsset = styled.img`
+  display: block;
+  width: 100%;
+  margin: 24px auto;
+`;
+
+const ContentColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  padding: 36px 24px;
+  margin-left: auto;
+  margin-right: auto;
+
+  ol, ul {
+    margin-top: 0;
+    margin-bottom: 12px;
+
+    ${Paragraph} {
+      margin-bottom: 12px;
+    }
+  }
+
+  ol > ol > li {
+    list-style-type: lower-alpha;
+  }
+
+  ${Header} + ol, ${Header} + ul {
+    margin-top: 24px;
+  }
+`;
+
 const options = {
   renderMark: {
     [MARKS.BOLD]: text => <strong>{text}</strong>,
@@ -276,6 +299,12 @@ const options = {
     [BLOCKS.HEADING_2]: (node, children) => <Header>{children}</Header>,
     [BLOCKS.HEADING_6]: (node, children) => <InlineCtaButton>{children}</InlineCtaButton>,
     [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
+    [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
+      <EmbeddedAsset
+        src={get(node, 'data.target.fields.file.url')}
+        alt={get(node, 'data.target.fields.description')}
+      />
+    ),
   },
 };
 
