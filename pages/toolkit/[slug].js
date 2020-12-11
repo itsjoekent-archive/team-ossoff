@@ -282,7 +282,7 @@ const ContentColumn = styled.div`
     }
   }
 
-  ol > ol > li {
+  ol > li > ol > li {
     list-style-type: lower-alpha;
   }
 
