@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { darken } from 'polished';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import InlineScript from '../../components/InlineScript';
 import { LedeTitle, LedeSubtitle } from '../../components/HeroBlocks';
 import Alarm from '../../components/icons/alarm.svg';
 import Devices from '../../components/icons/devices.svg';
@@ -305,6 +306,21 @@ const options = {
         alt={get(node, 'data.target.fields.description')}
       />
     ),
+    [BLOCKS.EMBEDDED_ENTRY]: (node, children) => {
+      const type = get(node, 'data.target.sys.contentType.sys.id');
+
+      switch (type) {
+        case 'script': return (
+          <InlineScript
+            title={get(node, 'data.target.fields.title')}
+            content={get(node, 'data.target.fields.content')}
+          />
+        );
+
+        default: return null;
+      }
+      return null;
+    },
   },
 };
 
