@@ -92,12 +92,39 @@ const HeroDetailsContainer = styled.div`
   }
 `;
 
+const HeroCtaButton = styled.a`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 800;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+  text-decoration: none;
+  background-color: ${({ theme }) => theme.colors.red};
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.25);
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  margin-bottom: 24px;
+
+  &:hover {
+    box-shadow: none;
+    background-color: ${({ theme }) => darken(0.1, theme.colors.red)};
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    margin-bottom: 0;
+    margin-right: 24px;
+  }
+`;
+
 const HeroDetail = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  &:first-child {
+  &:first-of-type {
     margin-bottom: 6px;
 
     @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
@@ -326,7 +353,10 @@ const options = {
 
 export default function Toolkit(props) {
   const { toolkit } = props;
+
   const priorityLabel = get(toolkit, 'fields.priorityLabel');
+  const heroButtonLabel = get(toolkit, 'fields.heroButtonLabel');
+  const heroButtonLink = get(toolkit, 'fields.heroButtonLink');
 
   const shareLink = `https://teamossoff.com/toolkit/${get(toolkit, 'fields.slug')}`;
   const shareText = get(toolkit, 'fields.callToAction') || '';
@@ -349,6 +379,11 @@ export default function Toolkit(props) {
           <LedeTitle>{get(toolkit, 'fields.title')}</LedeTitle>
           <LedeSubtitle>{get(toolkit, 'fields.subtitle')}</LedeSubtitle>
           <HeroDetailsContainer>
+            {(heroButtonLabel && heroButtonLink) && (
+              <HeroCtaButton href={heroButtonLink}>
+                {heroButtonLabel}
+              </HeroCtaButton>
+            )}
             <HeroDetail>
               <Alarm />
               <HeroDetailLabel>{get(toolkit, 'fields.estimatedDuration')}</HeroDetailLabel>

@@ -24,10 +24,10 @@ const CtaButton = styled.a`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-weight: 800;
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.red};
   text-align: center;
   text-decoration: none;
-  background-color: ${({ theme }) => theme.colors.red};
+  background-color: ${({ theme }) => theme.colors.white};
   box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.25);
   padding: 12px 24px;
   border-radius: 8px;
@@ -35,7 +35,8 @@ const CtaButton = styled.a`
 
   &:hover {
     box-shadow: none;
-    background-color: ${({ theme }) => darken(0.1, theme.colors.red)};
+    color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.red};
   }
 `;
 
