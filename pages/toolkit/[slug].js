@@ -69,8 +69,8 @@ const PriorityLabel = styled.p`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-weight: 800;
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.black};
-  background: linear-gradient(to right, ${({ theme }) => theme.colors.yellow}, ${({ theme }) => theme.colors.orange});
+  color: ${({ theme }) => theme.colors.navy};
+  background: ${({ theme }) => theme.colors.yellow};
   padding: 3px 12px;
   margin-bottom: 12px;
   border-radius: 8px;
@@ -253,10 +253,10 @@ const InlineCtaButton = styled.button`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-weight: 800;
   font-size: 28px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.navy};
   text-align: center;
   text-decoration: none;
-  background-color: ${({ theme }) => theme.colors.red};
+  background-color: ${({ theme }) => theme.colors.yellow};
   box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.25);
   padding: 12px 24px;
   border-radius: 8px;
@@ -269,7 +269,7 @@ const InlineCtaButton = styled.button`
 
   &:hover {
     box-shadow: none;
-    background-color: ${({ theme }) => darken(0.1, theme.colors.red)};
+    background-color: ${({ theme }) => darken(0.1, theme.colors.yellow)};
   }
 `;
 
@@ -277,7 +277,7 @@ const Paragraph = styled.p`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-weight: 400;
   font-size: 18px;
-  line-height: 1.4;
+  line-height: 1.6;
   color: ${({ theme }) => theme.colors.black};
   margin-bottom: 24px;
 

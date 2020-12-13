@@ -41,7 +41,7 @@ const Paragraph = styled.p`
   font-family: ${({ theme }) => theme.fonts.sans};
   font-weight: 400;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.6;
   color: ${({ theme }) => theme.colors.black};
   margin-bottom: 24px;
 
