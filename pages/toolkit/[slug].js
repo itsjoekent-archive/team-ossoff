@@ -292,14 +292,57 @@ const EmbeddedAsset = styled.img`
   margin: 24px auto;
 `;
 
+const Article = styled.article`
+  display: flex;
+  flex-direction: row;
+  padding: 36px 24px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding-left: 105px;
+  }
+`;
+
+const TableContents = styled.div`
+  display: none;
+
+  @media (min-width: 960px) {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: fit-content;
+    position: sticky;
+    top: 36px;
+    margin-right: 48px;
+  }
+`;
+
+const TableTitle = styled.p`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 800;
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.navy};
+  text-transform: uppercase;
+  margin-bottom: 24px;
+`;
+
+const TableLink = styled.a`
+  font-family: ${({ theme }) => theme.fonts.sans};
+  font-weight: 400;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.black};
+  text-decoration: none;
+  margin-bottom: 12px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 700px;
-  padding: 36px 24px;
-  margin-left: auto;
-  margin-right: auto;
 
   ol, ul {
     margin-top: 0;
@@ -319,12 +362,16 @@ const ContentColumn = styled.div`
   }
 `;
 
+function makeHeaderAnchor(text) {
+  return text.trim().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase();
+}
+
 const options = {
   renderMark: {
     [MARKS.BOLD]: text => <strong>{text}</strong>,
   },
   renderNode: {
-    [BLOCKS.HEADING_2]: (node, children) => <Header>{children}</Header>,
+    [BLOCKS.HEADING_2]: (node, children) => <Header id={makeHeaderAnchor(get(node, 'content[0].value', ''))}>{children}</Header>,
     [BLOCKS.HEADING_6]: (node, children) => <InlineCtaButton>{children}</InlineCtaButton>,
     [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
@@ -363,6 +410,13 @@ export default function Toolkit(props) {
   const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=${encodeURIComponent(shareText)}`;
   const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText || ''}\n${shareLink}`)}`;
 
+  const headers = get(toolkit, 'fields.content.content', [])
+    .filter((node) => node.nodeType === BLOCKS.HEADING_2)
+    .map((node) => {
+      const text = get(node, 'content[0].value', '');
+      return [text, makeHeaderAnchor(text)];
+    });
+
   return (
     <React.Fragment>
       <Head>
@@ -395,32 +449,40 @@ export default function Toolkit(props) {
           </HeroDetailsContainer>
         </HeroContentContainer>
       </HeroSection>
-      <ContentColumn>
-        <BylineRow>
-          <AuthorRow>
-            <Avatar
-              src={get(toolkit, 'fields.author.fields.avatar.fields.file.url')}
-              alt={get(toolkit, 'fields.author.fields.avatar.fields.description')}
-            />
-            <NameColumn>
-              <Name>{get(toolkit, 'fields.author.fields.name')}</Name>
-              <Title>{get(toolkit, 'fields.author.fields.jobTitle')}</Title>
-            </NameColumn>
-          </AuthorRow>
-          <SocialColumn>
-            <Name>Share toolkit</Name>
-            <SocialIconRow>
-              <SocialIcon href={facebookLink} aria-label="Share this toolkit to Facebook">
-                <Facebook />
-              </SocialIcon>
-              <SocialIcon href={twitterLink} aria-label="Share this toolkit to Twitter">
-                <Twitter />
-              </SocialIcon>
-            </SocialIconRow>
-          </SocialColumn>
-        </BylineRow>
-        {documentToReactComponents(get(toolkit, 'fields.content'), options)}
-      </ContentColumn>
+      <Article>
+        <TableContents>
+          <TableTitle>Jump to section</TableTitle>
+          {headers.map(([text, anchor]) => (
+            <TableLink key={anchor} href={`#${anchor}`}>{text}</TableLink>
+          ))}
+        </TableContents>
+        <ContentColumn>
+          <BylineRow>
+            <AuthorRow>
+              <Avatar
+                src={get(toolkit, 'fields.author.fields.avatar.fields.file.url')}
+                alt={get(toolkit, 'fields.author.fields.avatar.fields.description')}
+              />
+              <NameColumn>
+                <Name>{get(toolkit, 'fields.author.fields.name')}</Name>
+                <Title>{get(toolkit, 'fields.author.fields.jobTitle')}</Title>
+              </NameColumn>
+            </AuthorRow>
+            <SocialColumn>
+              <Name>Share toolkit</Name>
+              <SocialIconRow>
+                <SocialIcon href={facebookLink} aria-label="Share this toolkit to Facebook">
+                  <Facebook />
+                </SocialIcon>
+                <SocialIcon href={twitterLink} aria-label="Share this toolkit to Twitter">
+                  <Twitter />
+                </SocialIcon>
+              </SocialIconRow>
+            </SocialColumn>
+          </BylineRow>
+          {documentToReactComponents(get(toolkit, 'fields.content'), options)}
+        </ContentColumn>
+      </Article>
     </React.Fragment>
   );
 }
