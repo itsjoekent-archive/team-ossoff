@@ -404,6 +404,8 @@ export default function Toolkit(props) {
   const priorityLabel = get(toolkit, 'fields.priorityLabel');
   const heroButtonLabel = get(toolkit, 'fields.heroButtonLabel');
   const heroButtonLink = get(toolkit, 'fields.heroButtonLink');
+  const estimatedDuration = get(toolkit, 'fields.estimatedDuration');
+  const requiredDevices = get(toolkit, 'fields.requiredDevices');
 
   const shareLink = `https://teamossoff.com/toolkit/${get(toolkit, 'fields.slug')}`;
   const shareText = get(toolkit, 'fields.callToAction') || '';
@@ -433,19 +435,23 @@ export default function Toolkit(props) {
           <LedeTitle>{get(toolkit, 'fields.title')}</LedeTitle>
           <LedeSubtitle>{get(toolkit, 'fields.subtitle')}</LedeSubtitle>
           <HeroDetailsContainer>
-            {(heroButtonLabel && heroButtonLink) && (
+            {(!!heroButtonLabel && !!heroButtonLink) && (
               <HeroCtaButton href={heroButtonLink}>
                 {heroButtonLabel}
               </HeroCtaButton>
             )}
-            <HeroDetail>
-              <Alarm />
-              <HeroDetailLabel>{get(toolkit, 'fields.estimatedDuration')}</HeroDetailLabel>
-            </HeroDetail>
-            <HeroDetail>
-              <Devices />
-              <HeroDetailLabel>{get(toolkit, 'fields.requiredDevices')}</HeroDetailLabel>
-            </HeroDetail>
+            {!!estimatedDuration && (
+              <HeroDetail>
+                <Alarm />
+                <HeroDetailLabel>{get(toolkit, 'fields.estimatedDuration')}</HeroDetailLabel>
+              </HeroDetail>
+            )}
+            {!!requiredDevices && (
+              <HeroDetail>
+                <Devices />
+                <HeroDetailLabel>{get(toolkit, 'fields.requiredDevices')}</HeroDetailLabel>
+              </HeroDetail>
+            )}
           </HeroDetailsContainer>
         </HeroContentContainer>
       </HeroSection>
