@@ -220,7 +220,7 @@ export default function Home(props) {
   ]);
 
   return (
-    <React.Helmet>
+    <React.Fragment>
       <Head>
         <title>Team Ossoff</title>
       </Head>
@@ -255,7 +255,7 @@ export default function Home(props) {
           </CardContainer>
         </ContentContainer>
       </Page>
-    </React.Helmet>
+    </React.Fragment>
   );
 }
 
