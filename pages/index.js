@@ -1,5 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import get from 'lodash.get';
+import Head from 'next/head';
 import ToolkitCard, { ToolkitCardWrapper } from '../components/ToolkitCard';
 import { LedeTitle, LedeSubtitle, LedeContainer } from '../components/HeroBlocks';
 import { fetchToolkits } from '../utils/contentfulPosts';
@@ -218,43 +220,42 @@ export default function Home(props) {
   ]);
 
   return (
-    <Page>
-      <BackgroundVideo ref={videoRef} muted autoPlay loop poster={videoSource.poster}>
-        <source src={videoSource.webm} type="video/webm" />
-        <source src={videoSource.mp4} type="video/mp4" />
-      </BackgroundVideo>
-      <BackgroundVideoDarkenOverlay />
-      <BackgroundVideoColorOverlay />
-      <ContentContainer>
-        <LedeContainer>
-          <LedeTitle>We need your help to win the Senate.</LedeTitle>
-          <LedeSubtitle>Join our people powered campaign to elect Jon to the Senate.</LedeSubtitle>
-        </LedeContainer>
-        <CardContainer>
-          <CardRowTitle>
-            Actions you can take right now to elect jon
-          </CardRowTitle>
-          <CardRow>
-            {toolkits.slice(0, 6).map((toolkit) => (
-              <ToolkitCard
-                key={toolkit.sys.id}
-                path={`/toolkit/${toolkit.fields.slug}`}
-                title={toolkit.fields.title}
-                callToAction={toolkit.fields.callToAction}
-                estimatedDuration={toolkit.fields.estimatedDuration}
-                requiredDevices={toolkit.fields.requiredDevices}
-              />
-            ))}
-            {/* <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" />
-            <ToolkitCard title="Guide to Reach and in-state relational organizing" callToAction="Quis blandit turpis cursus in hac habitasse. Venenatis urna cursus eget nunc dui faucibus in ornare." estimatedDuration="15 minutes" requiredDevices="Phone or computer" /> */}
-          </CardRow>
-        </CardContainer>
-      </ContentContainer>
-    </Page>
+    <React.Helmet>
+      <Head>
+        <title>Team Ossoff</title>
+      </Head>
+      <Page>
+        <BackgroundVideo ref={videoRef} muted autoPlay loop poster={videoSource.poster}>
+          <source src={videoSource.webm} type="video/webm" />
+          <source src={videoSource.mp4} type="video/mp4" />
+        </BackgroundVideo>
+        <BackgroundVideoDarkenOverlay />
+        <BackgroundVideoColorOverlay />
+        <ContentContainer>
+          <LedeContainer>
+            <LedeTitle>We need your help to win the Senate.</LedeTitle>
+            <LedeSubtitle>Join our people powered campaign to elect Jon to the Senate.</LedeSubtitle>
+          </LedeContainer>
+          <CardContainer>
+            <CardRowTitle>
+              Actions you can take right now to elect jon
+            </CardRowTitle>
+            <CardRow>
+              {toolkits.slice(0, 6).map((toolkit) => (
+                <ToolkitCard
+                  key={get(toolkit, 'sys.id')}
+                  path={`/toolkit/${get(toolkit, 'fields.slug')}`}
+                  title={get(toolkit, 'fields.title')}
+                  callToAction={get(toolkit, 'fields.callToAction')}
+                  estimatedDuration={get(toolkit, 'fields.estimatedDuration')}
+                  requiredDevices={get(toolkit, 'fields.requiredDevices')}
+                />
+              ))}
+            </CardRow>
+          </CardContainer>
+        </ContentContainer>
+      </Page>
+    </React.Helmet>
   );
 }
 

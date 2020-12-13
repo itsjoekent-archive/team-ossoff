@@ -407,6 +407,8 @@ export default function Toolkit(props) {
   const estimatedDuration = get(toolkit, 'fields.estimatedDuration');
   const requiredDevices = get(toolkit, 'fields.requiredDevices');
 
+  const pageTitle = `${get(toolkit, 'fields.title')} | Team Ossoff`;
+
   const shareLink = `https://teamossoff.com/toolkit/${get(toolkit, 'fields.slug')}`;
   const shareText = get(toolkit, 'fields.callToAction') || '';
   const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${shareLink}&quote=${encodeURIComponent(shareText)}`;
@@ -422,7 +424,10 @@ export default function Toolkit(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>{get(toolkit, 'fields.title')} | Team Ossoff</title>
+        <title>{pageTitle}</title>
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={get(toolkit, 'fields.callToAction')} />
+        <meta property="og:image" content={get(toolkit, 'fields.coverPhoto.fields.file.url')} />
       </Head>
       <HeroSection>
         <BackgroundCover
