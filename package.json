@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "next dev",
-    "build": "next build && cp _redirects out/_redirects",
-    "postbuild": "next-on-netlify"
+    "build": "next build",
+    "postbuild": "next-on-netlify && && cp _redirects out_publish/_redirects"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^14.1.2",
