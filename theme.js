@@ -9,6 +9,7 @@ const theme = {
     orange: '#F3B58D',
     navy: '#203F7C',
     blue: '#1791DF',
+    lightBlue: '#EEF3F6',
     white: '#FFFFFF',
     black: '#000000',
   },

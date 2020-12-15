@@ -6,6 +6,7 @@ import { darken } from 'polished';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import InlineScript from '../../components/InlineScript';
+import GraphicsGallery from '../../components/GraphicsGallery';
 import { LedeTitle, LedeSubtitle } from '../../components/HeroBlocks';
 import Alarm from '../../components/icons/alarm.svg';
 import Devices from '../../components/icons/devices.svg';
@@ -404,6 +405,17 @@ const options = {
           />
         );
 
+        case 'gallery': return (
+          <GraphicsGallery
+            coverSrc={get(node, 'data.target.fields.cover.fields.file.url')}
+            coverAlt={get(node, 'data.target.fields.cover.fields.description')}
+            downloads={get(node, 'data.target.fields.downloads').map((graphic) => [
+              get(graphic, 'fields.file.url'),
+              get(graphic, 'fields.description'),
+            ])}
+          />
+        );
+
         default: return null;
       }
       return null;
@@ -475,10 +487,14 @@ export default function Toolkit(props) {
       </HeroSection>
       <Article>
         <TableContents>
-          <TableTitle>Jump to section</TableTitle>
-          {headers.map(([text, anchor]) => (
-            <TableLink key={anchor} href={`#${anchor}`}>{text}</TableLink>
-          ))}
+          {!!headers.length && (
+            <React.Fragment>
+              <TableTitle>Jump to section</TableTitle>
+              {headers.map(([text, anchor]) => (
+                <TableLink key={anchor} href={`#${anchor}`}>{text}</TableLink>
+              ))}
+            </React.Fragment>
+          )}
         </TableContents>
         <ContentColumn>
           <BylineRow>
