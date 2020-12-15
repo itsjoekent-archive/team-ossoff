@@ -373,7 +373,20 @@ const options = {
   renderNode: {
     [BLOCKS.HEADING_2]: (node, children) => <Header id={makeHeaderAnchor(get(node, 'content[0].value', ''))}>{children}</Header>,
     [BLOCKS.HEADING_6]: (node, children) => <InlineCtaButton>{children}</InlineCtaButton>,
-    [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
+    [BLOCKS.PARAGRAPH]: (node, children) => {
+      if (get(node, 'content[0].value').startsWith('<iframe')) {
+        return (
+          <div
+            style={{ marginBottom: '24px' }}
+            dangerouslySetInnerHTML={{ __html: get(node, 'content[0].value') }}
+          />
+        );
+      }
+
+      return (
+        <Paragraph>{children}</Paragraph>
+      );
+    },
     [BLOCKS.EMBEDDED_ASSET]: (node, children) => (
       <EmbeddedAsset
         src={get(node, 'data.target.fields.file.url')}
