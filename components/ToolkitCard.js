@@ -133,14 +133,18 @@ export default function ToolkitCard(props) {
           <CardTitle>{title}</CardTitle>
           <CardCta>{callToAction}</CardCta>
           <CardDetailsContainer>
-            <CardDetail>
-              <Alarm />
-              <CardDetailLabel>{estimatedDuration}</CardDetailLabel>
-            </CardDetail>
-            <CardDetail>
-              <Devices />
-              <CardDetailLabel>{requiredDevices}</CardDetailLabel>
-            </CardDetail>
+            {estimatedDuration && (
+              <CardDetail>
+                <Alarm />
+                <CardDetailLabel>{estimatedDuration}</CardDetailLabel>
+              </CardDetail>
+            )}
+            {requiredDevices && (
+              <CardDetail>
+                <Devices />
+                <CardDetailLabel>{requiredDevices}</CardDetailLabel>
+              </CardDetail>
+            )}
           </CardDetailsContainer>
         </ToolkitCardContainer>
       </ToolkitCardWrapper>

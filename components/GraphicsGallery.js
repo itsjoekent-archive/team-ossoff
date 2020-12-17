@@ -79,7 +79,7 @@ export default function GraphicsGallery(props) {
       <DownloadsList>
         <DownloadLabel>Downloads:</DownloadLabel>
         {downloads.map(([src, title]) => (
-          <DownloadLink href={src}>{title}</DownloadLink>
+          <DownloadLink href={src} target="_blank">{title}</DownloadLink>
         ))}
       </DownloadsList>
     </Container>

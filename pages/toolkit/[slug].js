@@ -487,7 +487,7 @@ export default function Toolkit(props) {
       </HeroSection>
       <Article>
         <TableContents>
-          {!!headers.length && (
+          {(headers.length > 1) && (
             <React.Fragment>
               <TableTitle>Jump to section</TableTitle>
               {headers.map(([text, anchor]) => (

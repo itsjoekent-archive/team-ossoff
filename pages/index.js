@@ -219,6 +219,10 @@ export default function Home(props) {
     setVideoSource,
   ]);
 
+  const toolkitCards = toolkits
+    .sort((a, b) => new Date(b.sys.updatedAt) - new Date(a.sys.updatedAt))
+    .slice(0, 6);
+
   return (
     <React.Fragment>
       <Head>
@@ -241,7 +245,7 @@ export default function Home(props) {
               Actions you can take right now to elect jon
             </CardRowTitle>
             <CardRow>
-              {toolkits.slice(0, 6).map((toolkit) => (
+              {toolkitCards.map((toolkit) => (
                 <ToolkitCard
                   key={get(toolkit, 'sys.id')}
                   path={`/toolkit/${get(toolkit, 'fields.slug')}`}
