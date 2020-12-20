@@ -66,6 +66,38 @@ const DownloadLink = styled.a`
   }
 `;
 
+const AltDownload = styled.a`
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  cursor: pointer;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    width: calc(33.33% - 12px);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+`;
+
+const AltContainer = styled(Container)`
+  ${DownloadLabel} {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+`;
+
 export default function GraphicsGallery(props) {
   const {
     coverSrc = '',
@@ -73,13 +105,26 @@ export default function GraphicsGallery(props) {
     downloads = [],
   } = props;
 
+  if (!coverSrc) {
+    return (
+      <AltContainer>
+        <DownloadLabel>Click any image to download</DownloadLabel>
+        {downloads.map(([src, title]) => (
+          <AltDownload key={src} href={src} target="_blank" aria-label={`Open ${title} in new tab`}>
+            <img src={src} alt={title} />
+          </AltDownload>
+        ))}
+      </AltContainer>
+    );
+  }
+
   return (
     <Container>
       <Cover src={coverSrc} alt={coverAlt} />
       <DownloadsList>
         <DownloadLabel>Downloads:</DownloadLabel>
         {downloads.map(([src, title]) => (
-          <DownloadLink href={src} target="_blank">{title}</DownloadLink>
+          <DownloadLink key={src} href={src} target="_blank">{title}</DownloadLink>
         ))}
       </DownloadsList>
     </Container>

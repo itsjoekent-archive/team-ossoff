@@ -220,7 +220,15 @@ export default function Home(props) {
   ]);
 
   const toolkitCards = toolkits
-    .sort((a, b) => new Date(b.sys.updatedAt) - new Date(a.sys.updatedAt))
+    .sort((a, b) => {
+      const rankDifference = get(a, 'fields.homepageRank', 0) - get(b, 'fields.homepageRank', 0);
+
+      if (!rankDifference) {
+        return new Date(b.sys.updatedAt) - new Date(a.sys.updatedAt);
+      }
+
+      return rankDifference;
+    })
     .slice(0, 6);
 
   return (
