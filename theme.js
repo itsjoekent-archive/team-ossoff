@@ -15,7 +15,7 @@ const theme = {
   },
   fonts: {
     serif: 'abril-text, serif', // 800
-    sans: 'montserrat, sans-serif', // 300, 400, 700, 800
+    sans: `'Poppins', sans-serif`, // 300, 400, 700, 800
   },
 };
 

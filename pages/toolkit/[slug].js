@@ -308,13 +308,26 @@ const Article = styled.article`
 `;
 
 const TableContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+`;
+
+const TableContentsMobile = styled(TableContents)`
+  width: 100%;
+  margin-bottom: 24px;
+
+  @media (min-width: 960px) {
+    display: none;
+  }
+`;
+
+const TableContentsDesktop = styled(TableContents)`
   display: none;
 
   @media (min-width: 960px) {
     display: flex;
-    flex-direction: column;
     width: 300px;
-    height: fit-content;
     position: sticky;
     top: 36px;
     margin-right: 48px;
@@ -327,7 +340,7 @@ const TableTitle = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.navy};
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 `;
 
 const TableLink = styled.a`
@@ -450,6 +463,15 @@ export default function Toolkit(props) {
       return [text, makeHeaderAnchor(text)];
     });
 
+  const tableOfContents = (headers.length > 1) && (
+    <React.Fragment>
+      <TableTitle>Jump to section</TableTitle>
+      {headers.map(([text, anchor]) => (
+        <TableLink key={anchor} href={`#${anchor}`}>{text}</TableLink>
+      ))}
+    </React.Fragment>
+  );
+
   return (
     <React.Fragment>
       <Head>
@@ -490,16 +512,9 @@ export default function Toolkit(props) {
         </HeroContentContainer>
       </HeroSection>
       <Article>
-        <TableContents>
-          {(headers.length > 1) && (
-            <React.Fragment>
-              <TableTitle>Jump to section</TableTitle>
-              {headers.map(([text, anchor]) => (
-                <TableLink key={anchor} href={`#${anchor}`}>{text}</TableLink>
-              ))}
-            </React.Fragment>
-          )}
-        </TableContents>
+        <TableContentsDesktop>
+          {tableOfContents}
+        </TableContentsDesktop>
         <ContentColumn>
           <BylineRow>
             <AuthorRow>
@@ -524,6 +539,9 @@ export default function Toolkit(props) {
               </SocialIconRow>
             </SocialColumn>
           </BylineRow>
+          <TableContentsMobile>
+            {tableOfContents}
+          </TableContentsMobile>
           {documentToReactComponents(get(toolkit, 'fields.content'), options)}
         </ContentColumn>
       </Article>
