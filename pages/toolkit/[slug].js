@@ -285,6 +285,10 @@ const Paragraph = styled.p`
   strong {
     font-weight: 800;
   }
+
+  a {
+    color: ${({ theme }) => theme.colors.blue};
+  }
 `;
 
 const EmbeddedAsset = styled.img`

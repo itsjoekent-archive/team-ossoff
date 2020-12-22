@@ -74,6 +74,7 @@ const AltDownload = styled.a`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     width: calc(33.33% - 12px);
+    margin-bottom: 16px;
   }
 
   img {
@@ -114,6 +115,7 @@ export default function GraphicsGallery(props) {
             <img src={src} alt={title} />
           </AltDownload>
         ))}
+        {new Array(3 - (downloads.length % 3)).fill(0).map((v, index) => <AltDownload key={index} aria-hidden />)}
       </AltContainer>
     );
   }
