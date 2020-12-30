@@ -478,7 +478,7 @@ export default function Toolkit(props) {
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={get(toolkit, 'fields.callToAction')} />
-        <meta property="og:image" content={get(toolkit, 'fields.coverPhoto.fields.file.url')} />
+        <meta property="og:image" content="https://teamossoff.com/assets/ossoff-toolkit-meta.jpeg" />
       </Head>
       <HeroSection>
         <BackgroundCover
